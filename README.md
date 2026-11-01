@@ -41,15 +41,24 @@ No environment variables are needed.
 | `npm run lint` | ESLint over source, tests and config |
 | `npm run build` | Type-check (`tsc -b`) and build the demo app |
 | `npm run cypress:open` / `npm run cypress:run` | E2E tests (start `npm run dev` first, in another terminal) |
+| `npm run submission` | Rebuild the 4 deliverables in `submission/` (run after committing) |
+
+Running Cypress from a process started by a VS Code extension can fail with
+`Cypress.exe: bad option: --smoke-test`, because VS Code sets `ELECTRON_RUN_AS_NODE=1`. Use a normal
+terminal, or clear the variable first (`env -u ELECTRON_RUN_AS_NODE npm run cypress:run` in Git Bash).
 
 ## Project Structure
 
 ```
-src/components/<Name>/<Name>.tsx   # the 8 library components
-src/App.tsx, src/main.tsx          # demo app (used by Cypress)
-tests/                             # setup smoke test, integration tests
-cypress/                           # E2E specs and support files
-docs/                              # challenge, rubric, plan, bug fixes
+src/components/<Name>/<Name>.tsx       # the 8 library components
+src/components/<Name>/<Name>.test.tsx  # unit tests (rendering / interactions / edge cases)
+src/App.tsx, src/main.tsx              # demo app (used by integration tests and Cypress)
+tests/setup.test.tsx                   # smoke test for the test environment
+tests/integration/                     # 3 integration test files (components working together)
+cypress/e2e/component-demo.cy.ts       # E2E user journey + accessibility check
+scripts/make-submission.mjs            # builds the submission/ deliverables
+submission/                            # the 4 subhash-jeewantha-month1-* files
+docs/                                  # challenge, rubric, plan, bug fixes
 jest.config.js, jest.setup.js, cypress.config.js
 ```
 
@@ -67,15 +76,27 @@ jest.config.js, jest.setup.js, cypress.config.js
 - **Test types are listed in `tsconfig.json`** (`jest`, `@testing-library/jest-dom`, `jest-axe`) so the
   editor and `tsc -b` both understand the test files. Cypress has its own `cypress/tsconfig.json` so
   Cypress's `expect` (Chai) does not clash with Jest's.
+- **Tests query by role and label, and interact through `user-event`.** They check what a user sees and
+  does, not component internals, and they double as accessibility checks. No snapshot tests.
+- **Integration tests use small realistic parents** (a sign-up form, a profile page with an edit modal)
+  built only from library components, plus the real demo `App`. `console.log` in the demo is mocked so
+  tabs can be asserted without noise.
+- **Accessibility is checked twice.** `jest-axe` runs on each component in jsdom. `cypress-axe` runs on
+  the real page, where it can also measure colour contrast, which jsdom cannot.
+- **Submission files are generated, not hand-made.** `npm run submission` builds the zip with
+  `git archive` (exactly the committed files), inlines the coverage report into one HTML file, and
+  writes the TDD log from `git log`, so they always match the repo.
 
 ## Challenge Coverage
 
 - [x] Part 1 – Testing environment setup
 - [x] Part 2 – Unit test suite (all 8 components)
 - [x] Part 3 – Bug discovery & TDD fixes: 5 bugs, documented in [docs/BUG-FIXES.md](docs/BUG-FIXES.md)
-- [ ] Part 4 – Integration & E2E tests
+- [x] Part 4 – 3 integration test files (11 tests) and 1 Cypress E2E spec (2 tests); 2 more bugs found
+      and fixed with TDD
 
-Current status: 95 tests, 100% statements / branches / functions / lines on `src/components/`.
+Current status: 107 Jest tests + 2 Cypress tests, 100% statements / branches / functions / lines on
+`src/components/`. 7 bugs fixed with TDD.
 
 ## TDD Process
 
@@ -85,7 +106,7 @@ then `fix: …` (green), then `refactor: …` where useful. See `git log --oneli
 
 ## Known Limitations
 
-Found while testing but outside the 5 hinted bugs, so not fixed (details in
+Found while testing but not fixed (details in
 [docs/BUG-FIXES.md](docs/BUG-FIXES.md#other-findings-not-fixed)):
 
 - `Input` without a `label` does not link its error message (`aria-describedby="undefined-error"`).

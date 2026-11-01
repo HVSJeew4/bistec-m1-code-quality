@@ -43,27 +43,27 @@ the tests are rewritten here to match the required describe structure.
 Naming convention: `[participant-name]-month1-[deliverable]` (e.g. `john-doe-month1-test-suite.zip`).
 
 Required files:
-- [ ] `subhash-jeewantha-month1-test-suite.zip` – all test files
-- [ ] `subhash-jeewantha-month1-coverage-report.html` – coverage report
-- [ ] `subhash-jeewantha-month1-bug-fixes.md` – bug documentation
-- [ ] `subhash-jeewantha-month1-tdd-commits.md` – git log showing the TDD process
+- [x] `subhash-jeewantha-month1-test-suite.zip` – all test files
+- [x] `subhash-jeewantha-month1-coverage-report.html` – coverage report
+- [x] `subhash-jeewantha-month1-bug-fixes.md` – bug documentation
+- [x] `subhash-jeewantha-month1-tdd-commits.md` – git log showing the TDD process
 
 Setup files (Part 1):
-- [ ] `jest.config.js` – `testEnvironment: 'jsdom'`, `setupFilesAfterEnv`, coverage threshold
+- [x] `jest.config.js` – `testEnvironment: 'jsdom'`, `setupFilesAfterEnv`, coverage threshold
       80% for lines, functions, branches, `collectCoverageFrom` patterns
-- [ ] `jest.setup.js` – Testing Library setup
-- [ ] `cypress.config.js` – Cypress configuration
+- [x] `jest.setup.js` – Testing Library setup
+- [x] `cypress.config.js` – Cypress configuration
 
 Code requirements:
-- [ ] Every component test file follows the minimum structure:
+- [x] Every component test file follows the minimum structure:
       `describe('ComponentName')` → `describe('rendering')` (default props + custom props),
       `describe('interactions')`, `describe('edge cases')`
-- [ ] Tests for all 8 components: Button, Input, Modal, Card, Dropdown, Toggle, Alert, Tabs
-- [ ] Descriptive test names, AAA pattern, external dependencies mocked, user interactions tested
+- [x] Tests for all 8 components: Button, Input, Modal, Card, Dropdown, Toggle, Alert, Tabs
+- [x] Descriptive test names, AAA pattern, external dependencies mocked, user interactions tested
       (not implementation), edge cases covered
-- [ ] 5 bugs fixed via TDD, each documented in the `## Bug #N: [Title]` format
-- [ ] ≥ 3 integration tests, ≥ 1 Cypress E2E test
-- [ ] Coverage ≥ 80% lines, functions, branches (enforced by the Jest threshold)
+- [x] 5 bugs fixed via TDD, each documented in the `## Bug #N: [Title]` format
+- [x] ≥ 3 integration tests, ≥ 1 Cypress E2E test
+- [x] Coverage ≥ 80% lines, functions, branches (enforced by the Jest threshold)
 
 Repo layout (starter files at the repo root, not in a `challenge/` subfolder):
 
@@ -182,18 +182,24 @@ Files: affected `src/components/*/*.tsx` and `*.test.tsx`, `docs/BUG-FIXES.md`
 
 Rubric: Test Quality, Test Coverage
 
-- [ ] Integration 1 – form flow: Input + Button submit (validation error → valid submit)
-- [ ] Integration 2 – Modal containing a form (open → fill → submit → modal closes)
-- [ ] Integration 3 – Dropdown selection affecting another component (using the starter `App`)
-- [ ] Cypress E2E – visit demo → use several components → assert state changes → `cy.checkA11y()`
-- [ ] Generate the 4 submission files:
-  - [ ] `subhash-jeewantha-month1-test-suite.zip` (all `*.test.tsx`, `cypress/e2e`, config files)
-  - [ ] `subhash-jeewantha-month1-coverage-report.html` (from `coverage/lcov-report/index.html`)
-  - [ ] `subhash-jeewantha-month1-bug-fixes.md` (copy of `docs/BUG-FIXES.md`)
-  - [ ] `subhash-jeewantha-month1-tdd-commits.md` (`git log` of Part 3, annotated red/green/refactor)
-- [ ] README complete: design decisions, coverage numbers, known limitations
+- [x] Integration 1 – form flow: Input + Button + Alert (`tests/integration/form-flow.test.tsx`, 3 tests)
+- [x] Integration 2 – Modal containing a form (`tests/integration/modal-form.test.tsx`, 4 tests)
+- [x] Integration 3 – Dropdown / Toggle / Input / Tabs affecting the page in the starter `App`
+      (`tests/integration/App.test.tsx`, 4 tests; `console.log` mocked)
+- [x] Cypress E2E – `cypress/e2e/component-demo.cy.ts`: full user journey across 7 components +
+      `cy.checkA11y()` (2 tests, passing in Electron 118)
+- [x] Extra bugs found and fixed with TDD: #6 Modal focus stealing (`2e319de` → `675a81b`),
+      #7 colour contrast (`5da680b` → `38efd6e`)
+- [x] Generate the 4 submission files with `npm run submission` (after the Part 4 commit, since the
+      zip is taken from HEAD):
+  - [x] `subhash-jeewantha-month1-test-suite.zip` (all `*.test.tsx`, `tests/`, `cypress/`, config files)
+  - [x] `subhash-jeewantha-month1-coverage-report.html` (single-file copy of the Jest HTML report)
+  - [x] `subhash-jeewantha-month1-bug-fixes.md` (copy of `docs/BUG-FIXES.md`)
+  - [x] `subhash-jeewantha-month1-tdd-commits.md` (generated from `git log`, labelled red/green/refactor)
+- [x] README complete: design decisions, coverage numbers, known limitations
 
-Files: `tests/integration/*.test.tsx`, `cypress/e2e/*.cy.ts`, `cypress/support/*`, `submission/*`, `README.md`
+Files: `tests/integration/*.test.tsx`, `cypress/e2e/*.cy.ts`, `scripts/make-submission.mjs`,
+`submission/*`, `README.md`, `docs/BUG-FIXES.md`
 
 ## 5. Rubric map
 
