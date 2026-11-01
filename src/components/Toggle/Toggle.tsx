@@ -9,7 +9,6 @@ interface ToggleProps {
 
 export function Toggle({
   checked: controlledChecked,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- known starter bug, fixed via TDD in Part 3
   onChange,
   label,
   disabled = false,
@@ -20,7 +19,11 @@ export function Toggle({
 
   const handleClick = () => {
     if (disabled) return;
-    setInternalChecked(!isChecked);
+    const next = !isChecked;
+    if (controlledChecked === undefined) {
+      setInternalChecked(next);
+    }
+    onChange?.(next);
   };
 
   return (
