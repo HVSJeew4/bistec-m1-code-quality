@@ -63,6 +63,34 @@ describe("Tabs", () => {
       expect(screen.queryByText("Overview content")).not.toBeInTheDocument();
     });
 
+    it("calls onChange with the zero-based index of the clicked tab", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      const handleChange = jest.fn();
+      render(<Tabs tabs={tabs} onChange={handleChange} />);
+
+      // Act
+      await user.click(screen.getByRole("tab", { name: "Features" }));
+
+      // Assert
+      expect(handleChange).toHaveBeenCalledTimes(1);
+      expect(handleChange).toHaveBeenCalledWith(1);
+    });
+
+    it("reports the same index it uses for defaultIndex, so the two can round-trip", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      const handleChange = jest.fn();
+      render(<Tabs tabs={tabs} onChange={handleChange} />);
+
+      // Act
+      await user.click(screen.getByRole("tab", { name: "Pricing" }));
+      const reportedIndex = handleChange.mock.calls[0][0];
+
+      // Assert
+      expect(tabs[reportedIndex]?.label).toBe("Pricing");
+    });
+
     it("can switch tabs without an onChange handler", async () => {
       // Arrange
       const user = userEvent.setup();
