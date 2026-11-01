@@ -6,7 +6,7 @@ interface DropdownItem {
 }
 
 interface DropdownProps {
-  items: DropdownItem[];
+  items?: DropdownItem[];
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;

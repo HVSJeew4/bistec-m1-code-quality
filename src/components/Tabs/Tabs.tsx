@@ -6,7 +6,7 @@ interface Tab {
 }
 
 interface TabsProps {
-  tabs: Tab[];
+  tabs?: Tab[];
   defaultIndex?: number;
   onChange?: (index: number) => void;
 }

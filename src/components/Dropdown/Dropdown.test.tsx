@@ -189,9 +189,8 @@ describe("Dropdown", () => {
     it("renders the placeholder instead of crashing when items is missing", async () => {
       // Arrange
       const user = userEvent.setup();
-      // Simulates data that has not loaded yet (e.g. from an API or a JS caller).
-      const notLoadedYet = undefined as unknown as [];
-      render(<Dropdown items={notLoadedYet} />);
+      // e.g. data from an API that has not loaded yet
+      render(<Dropdown items={undefined} />);
 
       // Act
       await user.click(screen.getByRole("combobox"));

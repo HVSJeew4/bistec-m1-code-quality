@@ -115,12 +115,9 @@ describe("Tabs", () => {
     });
 
     it("renders an empty tab list instead of crashing when tabs is missing", () => {
-      // Arrange
-      // Simulates data that has not loaded yet (e.g. from an API or a JS caller).
-      const notLoadedYet = undefined as unknown as [];
-
-      // Act
-      render(<Tabs tabs={notLoadedYet} />);
+      // Arrange & Act
+      // e.g. data from an API that has not loaded yet
+      render(<Tabs tabs={undefined} />);
 
       // Assert
       expect(screen.getByRole("tablist")).toBeEmptyDOMElement();
