@@ -35,9 +35,9 @@ export default tseslint.config(
     ...cypress.configs.recommended,
   },
 
-  // Root config files
+  // Root config files and Node scripts
   {
-    files: ["*.js"],
+    files: ["*.js", "scripts/**/*.mjs"],
     extends: [js.configs.recommended],
     languageOptions: { globals: { ...globals.node, ...globals.jest } },
   },

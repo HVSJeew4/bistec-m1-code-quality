@@ -12,7 +12,8 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "submission": "node scripts/make-submission.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
