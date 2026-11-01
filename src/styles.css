@@ -93,11 +93,11 @@ body {
 }
 
 .btn-danger {
-  background: #ef4444;
+  background: #dc2626;
   color: #fff;
 }
 .btn-danger:hover {
-  background: #dc2626;
+  background: #b91c1c;
 }
 
 .btn-disabled {
@@ -151,7 +151,7 @@ body {
 
 .input-error-text {
   font-size: 0.75rem;
-  color: #ef4444;
+  color: #dc2626;
 }
 
 /* ── Modal ── */
