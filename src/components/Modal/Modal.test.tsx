@@ -155,6 +155,28 @@ describe("Modal", () => {
       expect(onClose).not.toHaveBeenCalled();
     });
 
+    it("keeps focus on a field inside the dialog when the parent re-renders", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      // Parents commonly pass an inline arrow function, so onClose is a new function every render.
+      const { rerender } = render(
+        <Modal isOpen onClose={() => {}} title="Edit name">
+          <input aria-label="Name" />
+        </Modal>,
+      );
+      await user.click(screen.getByRole("textbox", { name: "Name" }));
+
+      // Act
+      rerender(
+        <Modal isOpen onClose={() => {}} title="Edit name">
+          <input aria-label="Name" />
+        </Modal>,
+      );
+
+      // Assert
+      expect(screen.getByRole("textbox", { name: "Name" })).toHaveFocus();
+    });
+
     it("has no detectable accessibility violations", async () => {
       // Arrange
       const { container } = render(
