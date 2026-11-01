@@ -117,19 +117,31 @@ role/label queries over `data-testid`, `user-event` for interactions, fake timer
 candidate and saved for a Part 3 red test, so Part 2 commits are always green and the TDD history
 stays clean.
 
-- [ ] Button – renders text, handles click, loading state, disabled, variant, custom className
-- [ ] Toggle – on/off state, keyboard (Enter/Space), `role="switch"` / `aria-checked`, disabled
-- [ ] Alert – variants, dismissible (callback fires, alert removed), not dismissible by default
-- [ ] Card – title, body, image present/missing, actions, custom className
-- [ ] Input – placeholder, value change, error message (`role="alert"`, `aria-invalid`),
-      required, focus/blur, types
-- [ ] Dropdown – open/select, click outside closes, Escape, keyboard open, placeholder vs selected label
-- [ ] Modal – closed renders nothing, open, backdrop click, Escape, close button, focus on open
-- [ ] Tabs – switching, default index, `aria-selected`, panel content
-- [ ] Run coverage and close gaps (bug paths are covered in Part 3)
-- [ ] One commit per component (`test: add Button unit tests`, …)
+- [x] Button – renders text, handles click (mouse + keyboard), loading state, variant, custom className
+      (disabled → Part 3, Bug candidate 1)
+- [x] Toggle – on/off state, keyboard (Enter/Space), `role="switch"` / `aria-checked`, disabled
+      (`onChange` / controlled mode → Part 3, candidate 3)
+- [x] Alert – variants, dismissible (callback fires, alert removed), not dismissible by default
+- [x] Card – title, body, image present/missing/decorative, actions, custom className
+- [x] Input – placeholder, value change, error message (`role="alert"`, `aria-invalid`, description),
+      required, focus/blur, types (no label + error → Part 3, candidate 4)
+- [x] Dropdown – open/select, click outside closes, Escape, keyboard open, placeholder vs selected label
+      (accessible name, arrow keys, missing `items` → Part 3, candidates 4/5)
+- [x] Modal – closed renders nothing, open, backdrop click, Escape, close button, focus on open
+      (focus trap → Part 3 candidate)
+- [x] Tabs – switching, default index, `aria-selected`, panel content, empty / out-of-range
+      (`onChange` argument → Part 3, candidate 2)
+- [x] Run coverage and close gaps: **100% lines/functions, 98.7% branches** (84 tests); the only
+      uncovered branch is Button `disabled`, the Bug 1 path
+- [x] One commit per component (`test: add Button unit tests`, …)
 
 Files: `src/components/*/*.test.tsx`
+
+Notes:
+- `axe` checks are in every suite except Dropdown, which fails axe today (candidate 4).
+- Three explained `eslint-disable testing-library/no-node-access` lines: Modal backdrop, Alert variant
+  class, Card className. These elements have no role or label to query by.
+- No fake timers were needed: none of the components use timers.
 
 ### Part 3 – Bug Discovery & TDD Fix (25 min)
 
@@ -140,15 +152,19 @@ Per bug, separate commits so the red-green-refactor sequence shows in the histor
 2. `fix: <bug>` – green, all tests pass
 3. `refactor: <cleanup>` – only if there is something to clean up
 
-Candidates found by reading the starter code. **Each one is only confirmed once a red test fails:**
+Candidates from reading the code and Part 2 probing. **Each one is only confirmed once a red test fails:**
 
-| # | Hint category | Candidate | Location |
-|---|---|---|---|
-| 1 | Event handler not called / disabled bug | `disabled` never reaches the `<button>`, so `onClick` fires when disabled (also while loading) | `Button.tsx` |
-| 2 | Off-by-one in pagination | `onChange(index + 1)` reports the wrong tab index | `Tabs.tsx` |
-| 3 | Event handler not called / state not updating | `onChange` never called, so a controlled Toggle can never change | `Toggle.tsx` |
-| 4 | Accessibility issue | No `id` without `label` → `aria-describedby="undefined-error"`; dropdown trigger has no accessible name; no arrow-key navigation | `Input.tsx`, `Dropdown.tsx` |
-| 5 | Missing null check causing crash | To be found by edge-case tests (e.g. missing `items` / `tabs`, out-of-range `defaultIndex`) | TBD |
+| # | Hint category | Candidate | Evidence so far | Location |
+|---|---|---|---|---|
+| 1 | Event handler / disabled bug | `disabled` never reaches the `<button>`, so `onClick` fires when disabled | Rubric starter snippet; only uncovered branch | `Button.tsx` |
+| 2 | Off-by-one in pagination | `onChange(index + 1)` reports the wrong tab index | Code reading | `Tabs.tsx` |
+| 3 | Event handler not called / state not updating | `onChange` never called, so a controlled Toggle never changes | ESLint `no-unused-vars` | `Toggle.tsx` |
+| 4 | Accessibility issue | Dropdown combobox has no accessible name, even with `label` | axe: `aria-input-field-name` | `Dropdown.tsx` |
+| 5 | Missing null check causing crash | `items` / `tabs` undefined → `TypeError` (`reading 'find'` / `reading 'map'`) | Probe render crashed | `Dropdown.tsx`, `Tabs.tsx` |
+
+Other findings (fix if time allows, otherwise list in Known Limitations): Input without a label but
+with an error (`aria-describedby="undefined-error"`, axe `label-title-only`); no Dropdown arrow-key
+navigation; no Modal focus trap; Alert has no `role="alert"` / `status`.
 
 - [ ] Bug #1 … Bug #5: red → green → (refactor), one documented entry each
 - [ ] `docs/BUG-FIXES.md` in the exact format (Location, Symptom, Root Cause, Test Written, Fix Applied)

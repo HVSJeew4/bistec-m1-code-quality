@@ -71,13 +71,13 @@ jest.config.js, jest.setup.js, cypress.config.js
 ## Challenge Coverage
 
 - [x] Part 1 – Testing environment setup
-- [ ] Part 2 – Unit test suite
+- [x] Part 2 – Unit test suite (84 tests, 100% lines / functions, 98.7% branches)
 - [ ] Part 3 – Bug discovery & TDD fixes
 - [ ] Part 4 – Integration & E2E tests
 
 ## Known Limitations
 
-- Coverage is below the 80% threshold until the Part 2 and Part 3 tests are written.
+- Some known bugs are not fixed yet (see `docs/PLAN.md`, Part 3); their behaviour is not yet tested.
 - `Toggle.tsx` has a temporary `eslint-disable` comment on its unused `onChange` prop (a starter bug,
   fixed via TDD in Part 3).
 - E2E tests need the dev server started manually before running Cypress.
