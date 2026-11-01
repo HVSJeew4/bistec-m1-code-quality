@@ -16,7 +16,7 @@ export function Tabs({ tabs, defaultIndex = 0, onChange }: TabsProps) {
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
-    onChange?.(index + 1);
+    onChange?.(index);
   };
 
   return (
