@@ -15,3 +15,11 @@ coverage/
 .vs/
 *.log
 .DS_Store
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# TypeScript build cache
+*.tsbuildinfo

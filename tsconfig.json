@@ -15,7 +15,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "types": ["vite/client", "jest", "@testing-library/jest-dom", "jest-axe"]
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }

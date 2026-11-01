@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "allowImportingTsExtensions": false,
+    "esModuleInterop": true,
+    "allowJs": true
+  },
+  "include": ["src", "tests", "jest.setup.js"]
+}
