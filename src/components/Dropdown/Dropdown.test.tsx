@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { axe } from "jest-axe";
 import { Dropdown } from "./Dropdown";
 
 const frameworks = [
@@ -162,6 +163,29 @@ describe("Dropdown", () => {
   });
 
   describe("edge cases", () => {
+    it("uses its label as the combobox's accessible name", () => {
+      // Arrange & Act
+      render(<Dropdown items={frameworks} label="Framework" />);
+
+      // Assert
+      expect(
+        screen.getByRole("combobox", { name: "Framework" }),
+      ).toBeInTheDocument();
+    });
+
+    it("has no detectable accessibility violations when labelled", async () => {
+      // Arrange
+      const { container } = render(
+        <Dropdown items={frameworks} label="Framework" />,
+      );
+
+      // Act
+      const results = await axe(container);
+
+      // Assert
+      expect(results).toHaveNoViolations();
+    });
+
     it("opens an empty list when there are no items", async () => {
       // Arrange
       const user = userEvent.setup();
