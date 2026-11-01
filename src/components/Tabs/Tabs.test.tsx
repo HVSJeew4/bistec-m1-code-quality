@@ -114,6 +114,19 @@ describe("Tabs", () => {
       expect(screen.getByRole("tabpanel")).toBeEmptyDOMElement();
     });
 
+    it("renders an empty tab list instead of crashing when tabs is missing", () => {
+      // Arrange
+      // Simulates data that has not loaded yet (e.g. from an API or a JS caller).
+      const notLoadedYet = undefined as unknown as [];
+
+      // Act
+      render(<Tabs tabs={notLoadedYet} />);
+
+      // Assert
+      expect(screen.getByRole("tablist")).toBeEmptyDOMElement();
+      expect(screen.getByRole("tabpanel")).toBeEmptyDOMElement();
+    });
+
     it("renders an empty panel when defaultIndex is out of range", () => {
       // Arrange & Act
       render(<Tabs tabs={tabs} defaultIndex={5} />);

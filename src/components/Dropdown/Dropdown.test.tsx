@@ -186,6 +186,21 @@ describe("Dropdown", () => {
       expect(results).toHaveNoViolations();
     });
 
+    it("renders the placeholder instead of crashing when items is missing", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      // Simulates data that has not loaded yet (e.g. from an API or a JS caller).
+      const notLoadedYet = undefined as unknown as [];
+      render(<Dropdown items={notLoadedYet} />);
+
+      // Act
+      await user.click(screen.getByRole("combobox"));
+
+      // Assert
+      expect(screen.getByRole("combobox")).toHaveTextContent("Select...");
+      expect(screen.getByRole("listbox")).toBeEmptyDOMElement();
+    });
+
     it("opens an empty list when there are no items", async () => {
       // Arrange
       const user = userEvent.setup();
