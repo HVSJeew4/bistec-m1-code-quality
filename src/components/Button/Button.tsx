@@ -21,6 +21,7 @@ export function Button({
     <button
       className={`btn btn-${variant} ${disabled ? "btn-disabled" : ""} ${className}`.trim()}
       onClick={onClick}
+      disabled={disabled}
     >
       {loading ? <span className="btn-spinner">Loading...</span> : children}
     </button>
