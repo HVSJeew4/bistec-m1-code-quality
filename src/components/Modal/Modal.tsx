@@ -10,6 +10,11 @@ interface ModalProps {
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
+  // Focus the dialog only when it opens, not on every re-render.
+  useEffect(() => {
+    if (isOpen) modalRef.current?.focus();
+  }, [isOpen]);
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -17,7 +22,6 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
-      modalRef.current?.focus();
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
