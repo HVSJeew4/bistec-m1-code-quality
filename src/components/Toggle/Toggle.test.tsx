@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
@@ -60,6 +61,52 @@ describe("Toggle", () => {
         expect(screen.getByRole("switch", { name: "Dark mode" })).toBeChecked();
       },
     );
+
+    it("calls onChange with the new checked state", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      const handleChange = jest.fn();
+      render(<Toggle label="Dark mode" onChange={handleChange} />);
+
+      // Act
+      await user.click(screen.getByRole("switch", { name: "Dark mode" }));
+
+      // Assert
+      expect(handleChange).toHaveBeenCalledTimes(1);
+      expect(handleChange).toHaveBeenCalledWith(true);
+    });
+
+    it("switches when controlled by a parent that stores the new state", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      function Settings() {
+        const [darkMode, setDarkMode] = useState(false);
+        return (
+          <Toggle label="Dark mode" checked={darkMode} onChange={setDarkMode} />
+        );
+      }
+      render(<Settings />);
+
+      // Act
+      await user.click(screen.getByRole("switch", { name: "Dark mode" }));
+
+      // Assert
+      expect(screen.getByRole("switch", { name: "Dark mode" })).toBeChecked();
+    });
+
+    it("stays unchanged when controlled by a parent that ignores the change", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      render(<Toggle label="Dark mode" checked={false} onChange={() => {}} />);
+
+      // Act
+      await user.click(screen.getByRole("switch", { name: "Dark mode" }));
+
+      // Assert
+      expect(
+        screen.getByRole("switch", { name: "Dark mode" }),
+      ).not.toBeChecked();
+    });
 
     it("ignores other keys", async () => {
       // Arrange
