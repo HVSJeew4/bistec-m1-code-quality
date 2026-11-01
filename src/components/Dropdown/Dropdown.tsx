@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 
 interface DropdownItem {
   value: string;
@@ -22,6 +22,7 @@ export function Dropdown({
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const labelId = useId();
 
   const selectedItem = items.find((item) => item.value === value);
 
@@ -53,7 +54,11 @@ export function Dropdown({
 
   return (
     <div className="dropdown" ref={ref}>
-      {label && <span className="dropdown-label">{label}</span>}
+      {label && (
+        <span id={labelId} className="dropdown-label">
+          {label}
+        </span>
+      )}
       <div
         className={`dropdown-trigger ${isOpen ? "dropdown-open" : ""}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -61,6 +66,7 @@ export function Dropdown({
         role="combobox"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
+        aria-labelledby={label ? labelId : undefined}
         tabIndex={0}
       >
         {selectedItem ? selectedItem.label : placeholder}
