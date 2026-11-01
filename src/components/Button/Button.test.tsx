@@ -87,6 +87,31 @@ describe("Button", () => {
   });
 
   describe("edge cases", () => {
+    it("is exposed as disabled when the disabled prop is set", () => {
+      // Arrange & Act
+      render(<Button disabled>Save</Button>);
+
+      // Assert
+      expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
+    });
+
+    it("does not call onClick when disabled", async () => {
+      // Arrange
+      const user = userEvent.setup();
+      const handleClick = jest.fn();
+      render(
+        <Button disabled onClick={handleClick}>
+          Save
+        </Button>,
+      );
+
+      // Act
+      await user.click(screen.getByRole("button", { name: "Save" }));
+
+      // Assert
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
     it("does not throw when clicked without an onClick handler", async () => {
       // Arrange
       const user = userEvent.setup();
