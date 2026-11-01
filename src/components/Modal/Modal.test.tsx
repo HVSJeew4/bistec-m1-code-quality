@@ -23,7 +23,7 @@ describe("Modal", () => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
-    it("renders a labelled modal dialog with its content when open", () => {
+    it("renders correctly with default props: a labelled modal dialog with its content when open", () => {
       // Arrange & Act
       renderModal();
 
