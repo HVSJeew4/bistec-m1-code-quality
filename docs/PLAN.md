@@ -166,9 +166,15 @@ Other findings (fix if time allows, otherwise list in Known Limitations): Input 
 with an error (`aria-describedby="undefined-error"`, axe `label-title-only`); no Dropdown arrow-key
 navigation; no Modal focus trap; Alert has no `role="alert"` / `status`.
 
-- [ ] Bug #1 … Bug #5: red → green → (refactor), one documented entry each
-- [ ] `docs/BUG-FIXES.md` in the exact format (Location, Symptom, Root Cause, Test Written, Fix Applied)
-- [ ] Coverage threshold passes with all tests green
+All 5 candidates confirmed by a red test and fixed:
+
+- [x] Bug #1 Button disabled: `fa8abe6` red → `12dd4e1` green
+- [x] Bug #2 Tabs off-by-one: `3d750d1` red → `f695ca3` green
+- [x] Bug #3 Toggle `onChange`: `ee7b503` red → `5eaec6a` green (removed the Part 1 `eslint-disable`)
+- [x] Bug #4 Dropdown accessible name: `cb6c32e` red → `96a5974` green
+- [x] Bug #5 Dropdown/Tabs null check: `e270bbe` red → `42c8910` green → `f6b1e6a` refactor
+- [x] `docs/BUG-FIXES.md` in the exact format (Location, Symptom, Root Cause, Test Written, Fix Applied)
+- [x] Coverage threshold passes with all tests green: **100% statements / branches / functions / lines, 95 tests**
 
 Files: affected `src/components/*/*.tsx` and `*.test.tsx`, `docs/BUG-FIXES.md`
 

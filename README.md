@@ -71,13 +71,27 @@ jest.config.js, jest.setup.js, cypress.config.js
 ## Challenge Coverage
 
 - [x] Part 1 – Testing environment setup
-- [x] Part 2 – Unit test suite (84 tests, 100% lines / functions, 98.7% branches)
-- [ ] Part 3 – Bug discovery & TDD fixes
+- [x] Part 2 – Unit test suite (all 8 components)
+- [x] Part 3 – Bug discovery & TDD fixes: 5 bugs, documented in [docs/BUG-FIXES.md](docs/BUG-FIXES.md)
 - [ ] Part 4 – Integration & E2E tests
+
+Current status: 95 tests, 100% statements / branches / functions / lines on `src/components/`.
+
+## TDD Process
+
+Each bug has its own commits: `test: failing test for …` (red, the only commits with a failing test),
+then `fix: …` (green), then `refactor: …` where useful. See `git log --oneline` and the commit table in
+[docs/BUG-FIXES.md](docs/BUG-FIXES.md).
 
 ## Known Limitations
 
-- Some known bugs are not fixed yet (see `docs/PLAN.md`, Part 3); their behaviour is not yet tested.
-- `Toggle.tsx` has a temporary `eslint-disable` comment on its unused `onChange` prop (a starter bug,
-  fixed via TDD in Part 3).
+Found while testing but outside the 5 hinted bugs, so not fixed (details in
+[docs/BUG-FIXES.md](docs/BUG-FIXES.md#other-findings-not-fixed)):
+
+- `Input` without a `label` does not link its error message (`aria-describedby="undefined-error"`).
+- `Dropdown` has no arrow-key navigation between options.
+- `Modal` does not trap focus or restore it on close.
+- `Alert` is not announced by screen readers (no `role="alert"` / `status`).
+- `Button` has no `type`, so it submits forms by default.
+- The starter has no Alert icons and no controlled mode for Tabs, so those brief items are not tested.
 - E2E tests need the dev server started manually before running Cypress.
