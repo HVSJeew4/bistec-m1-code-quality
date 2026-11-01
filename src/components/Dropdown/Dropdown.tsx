@@ -14,7 +14,7 @@ interface DropdownProps {
 }
 
 export function Dropdown({
-  items,
+  items = [],
   value,
   onChange,
   placeholder = "Select...",

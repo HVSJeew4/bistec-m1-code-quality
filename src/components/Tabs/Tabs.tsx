@@ -11,7 +11,7 @@ interface TabsProps {
   onChange?: (index: number) => void;
 }
 
-export function Tabs({ tabs, defaultIndex = 0, onChange }: TabsProps) {
+export function Tabs({ tabs = [], defaultIndex = 0, onChange }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
   const handleTabClick = (index: number) => {
